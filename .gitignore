@@ -2,3 +2,5 @@
 *.swp
 .idea
 run.sh
+venv
+.vscode
