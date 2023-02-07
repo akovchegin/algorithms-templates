@@ -1,7 +1,7 @@
 # ! change LOCAL to False before submitting !
 # set LOCAL to True for local testing
 
-LOCAL = True
+LOCAL = False
 
 if LOCAL:
     class Node:  
@@ -11,9 +11,18 @@ if LOCAL:
 
 
 def solution(node, idx):
-    # Your code
-    # ヽ(´▽`)/
-    pass
+    if idx == 0:
+        return node.next_item
+    else:
+        new_head = node
+    while idx and node.next_item:
+        if idx == 1:
+            previous_node = node
+        node = node.next_item
+        idx -= 1
+    previous_node.next_item = node.next_item
+    return new_head
+    
 
 def test():
     node3 = Node("node3", None)

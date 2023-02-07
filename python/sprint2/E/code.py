@@ -1,7 +1,7 @@
 # ! change LOCAL to False before submitting !
 # set LOCAL to True for local testing
 
-LOCAL = True
+LOCAL = False
 
 if LOCAL:
     class DoubleConnectedNode:  
@@ -11,9 +11,12 @@ if LOCAL:
             self.prev = prev
 
 def solution(node):
-    # Your code
-    # ヽ(´▽`)/
-    pass
+    while True:
+        node.prev, node.next = node.next, node.prev
+        if node.prev == None:
+            break
+        node = node.prev
+    return node
 
 def test():
     node3 = DoubleConnectedNode("node3")
