@@ -7,19 +7,18 @@ def read_input():
     price = int(input())
     return num_days, days_arr, price
 
+
 def find_day(arr, price, left, right):
-    if left == right or arr[right] < price:
+    if arr[right] < price:
         return -1
-    if arr[left] == price:
-        return left
-    if left+1 == right:
+    if left == right:
         return right
-    if arr[left] < price and arr[right] >= price:
-        mid = (left+right) // 2
-        if arr[mid] >= price:
-            return find_day(arr, price, left, mid)
-        else:
-            return find_day(arr, price, mid, right)
+    mid = (left+right) // 2
+    if arr[mid] >= price:
+        return find_day(arr, price, left, mid)
+    else:
+        return find_day(arr, price, mid+1, right)
+
 
 if __name__ == '__main__':
     num_days, days_arr, price = read_input()
