@@ -1,20 +1,15 @@
 import sys
+import time
 
 
 def read_input():
-    n = int(input())
     arr = []
-    for i in range(n):
-        arr.append(list(map(int, sys.stdin.readline().strip().split())))
+    with open('/var/tmp/input.txt', 'r') as reader:
+        n = int(reader.readline().strip())
+        for line in reader:
+            arr.append(list(map(int, line.strip().split())))
     return n, arr
 
-
-def compare_borders(value1, value2):
-    if value1[-1] > value2[-1]:
-        return [value1]
-    if value1[-1] < value2[0]:
-        return [value1, value2]
-    return [[value1[0], value2[-1]]]
         
 def merge_sort(arr):
     if len(arr) == 1:
@@ -45,15 +40,28 @@ def merge_sort(arr):
     return merged_arr
 
 def get_flowerbeds(n, arr):
-    sorted_arr = merge_sort(arr)
+    time_start = time.time()
+#    sorted_arr = merge_sort(arr)
+    sorted_arr = sorted(arr)
+    time_mid = time.time()
     result = [sorted_arr[0]]
+
+
     for i in range(1,len(sorted_arr)):
-        last_item = result.pop()
-        result += compare_borders(last_item, sorted_arr[i])
+        if sorted_arr[i][-1] > result[-1][-1]:
+            if sorted_arr[i][0] > result[-1][-1]:
+                result.append(sorted_arr[i])
+            else:
+                result[-1][-1] = sorted_arr[i][-1]
+    time_end = time.time()
+    print(time_mid-time_start, time_end-time_mid)
     return result
 
 if __name__ == '__main__':
     n, arr = read_input()
     result = get_flowerbeds(n, arr)
+    time_start = time.time()
     for item in result:
-        print(' '.join(map(str, item)))
+        print(*item)
+    time_end = time.time()
+    print(time_end-time_start)

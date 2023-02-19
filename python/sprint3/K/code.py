@@ -1,13 +1,36 @@
 def merge(arr, lf, mid, rg):
-	# Your code
-	# “ヽ(´▽｀)ノ”
-	pass
+	i = lf
+	j = mid
+	k = 0
+	merged_arr = [None]*(rg-lf)
+	while i < mid and j < rg:
+		if arr[i] <= arr[j]:
+			merged_arr[k] = arr[i]
+			i += 1
+		else:
+			merged_arr[k] = arr[j]
+			j += 1
+		k += 1
+	while i < mid:
+		merged_arr[k] = arr[i]
+		i += 1
+		k +=1
+	while j < rg:
+		merged_arr[k] = arr[j]
+		j += 1
+		k +=1
+	arr[lf:rg] = merged_arr
+	return merged_arr
 
 
 def merge_sort(arr, lf, rg):
-	# Your code
-	# “ヽ(´▽｀)ノ”
-	pass
+	if rg-lf == 1:
+		return arr
+	mid = (rg + lf) // 2
+	merge_sort(arr, lf, mid)
+	merge_sort(arr, mid, rg)
+	merge(arr, lf, mid, rg)
+	
 
 def test():
 	a = [1, 4, 9, 2, 10, 11]
