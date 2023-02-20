@@ -1,40 +1,48 @@
 import sys
 
 
+class Participant():
+    def __init__(self, username, tasks, penalty):
+        self.params = (int(tasks), int(penalty), username)
+    
+
+    def is_winner(self, in_value):
+        value1 = (self.params[0] * -1, self.params[1], self.params[2])
+        value2 = (in_value.params[0] * -1, in_value.params[1], in_value.params[2])
+        return value1 <= value2
+
+    def __str__(self):
+        return f'{self.params[0]},{self.params[1]},{self.params[2]}'
+    
+
 def read_input():
     n = int(input())
     arr = [
-        sys.stdin.readline().strip().split() for _ in range(n) 
+        Participant(*sys.stdin.readline().strip().split()) for _ in range(n) 
     ]
     return n, arr
 
-def __sort(arr, left, right, key, direction=1):
-    if right - left == 1:
-        return
+
+def quick_sort(arr, left, right):
+    if right <= left:
+        return arr
+    mid = (right + left) // 2
+    pivot = arr[mid]
     i = left
-    j = right-1
-    pivot = int(arr[(left+right)//2][key])
+    j = right
     while i < j:
-        if (
-            int(arr[i][key])*direction > pivot*direction 
-            and int(arr[j][key])*direction <= pivot*direction
-        ):
+        if not arr[i].is_winner(pivot) and arr[j].is_winner(pivot):
             arr[i], arr[j] = arr[j], arr[i]
-        if int(arr[i][key])*direction <= pivot*direction:
+        if arr[i].is_winner(pivot):
             i += 1
-        if int(arr[j][key])*direction > pivot*direction:
+        if not arr[j].is_winner(pivot):
             j -= 1
-    __sort(arr, left, i, key,direction)
-    __sort(arr, i, right, key,direction)
-
-
-def sort_results(arr):
-    __sort(arr, 0, len(arr),1,-1)
-    print(*arr)
+    quick_sort(arr, left, i-1)
+    quick_sort(arr, i+1, right)
 
 
 if __name__ == '__main__':
     n, arr = read_input()
-    result = sort_results(arr)
-#    for position in result:
-#        print(position[0])
+#    print(*arr)
+    quick_sort(arr, 0, n-1)
+    print(*arr)
