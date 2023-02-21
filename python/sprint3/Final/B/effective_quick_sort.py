@@ -1,18 +1,19 @@
+# ID успешной отправки 82715336
 import sys
 
 
 class Participant():
     def __init__(self, username, tasks, penalty):
-        self.params = (int(tasks), int(penalty), username)
-    
+        self.__stats = (int(tasks)*-1, int(penalty), username)
 
-    def is_winner(self, in_value):
-        value1 = (self.params[0] * -1, self.params[1], self.params[2])
-        value2 = (in_value.params[0] * -1, in_value.params[1], in_value.params[2])
-        return value1 <= value2
+    def __lt__(self, obj):
+        return self.__stats < obj.__stats
+    
+    def __gt__(self, obj):
+        return self.__stats > obj.__stats
 
     def __str__(self):
-        return f'{self.params[0]},{self.params[1]},{self.params[2]}'
+        return self.__stats[2]
     
 
 def read_input():
@@ -23,26 +24,31 @@ def read_input():
     return n, arr
 
 
-def quick_sort(arr, left, right):
-    if right <= left:
-        return arr
-    mid = (right + left) // 2
-    pivot = arr[mid]
+def __partition(arr, left, right):
     i = left
     j = right
-    while i < j:
-        if not arr[i].is_winner(pivot) and arr[j].is_winner(pivot):
-            arr[i], arr[j] = arr[j], arr[i]
-        if arr[i].is_winner(pivot):
+    pivot = arr[(left+right)//2]
+    while True:
+        while arr[i] < pivot:
             i += 1
-        if not arr[j].is_winner(pivot):
+        while arr[j] > pivot:
             j -= 1
-    quick_sort(arr, left, i-1)
-    quick_sort(arr, i+1, right)
+        if i >= j:
+            return j
+        if (arr[i] == arr[j] == pivot) and i == (j-1):
+            return i
+        arr[i], arr[j] = arr[j], arr[i]
+
+
+def quick_sort(arr, left, right):
+    if left >= right:
+        return
+    bound = __partition(arr, left, right)
+    quick_sort(arr, left, bound)
+    quick_sort(arr, bound+1, right)
 
 
 if __name__ == '__main__':
     n, arr = read_input()
-#    print(*arr)
     quick_sort(arr, 0, n-1)
-    print(*arr)
+    print(*arr, sep='\n')

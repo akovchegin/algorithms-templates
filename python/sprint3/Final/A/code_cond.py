@@ -1,3 +1,4 @@
+# ID успешной отправки 82643143
 def __binary_search(nums, lf, rg, target):
     mid = (rg + lf) // 2
     if nums[mid] == target:
