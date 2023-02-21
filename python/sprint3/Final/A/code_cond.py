@@ -1,5 +1,10 @@
-# ID успешной отправки 82643143
-def __binary_search(nums, lf, rg, target):
+# ID успешной отправки 82765633
+
+# Изначально у меня была мысль, что "наружу" я выставляю функцию
+# broken_search, которая уже в свою очередь вызывает binary_search
+# поэтому я подумал, что "спрятать" binary_search будет уместно.
+
+def binary_search(nums, lf, rg, target):
     mid = (rg + lf) // 2
     if nums[mid] == target:
         return mid
@@ -7,18 +12,18 @@ def __binary_search(nums, lf, rg, target):
         return -1
     if nums[lf] < nums[mid]:
         if target < nums[mid] and target >= nums[lf]:
-            return __binary_search(nums, lf, mid, target)
+            return binary_search(nums, lf, mid, target)
         else:
-            return __binary_search(nums, mid, rg, target)
+            return binary_search(nums, mid, rg, target)
     else:
         if target <= nums[rg-1] and target >= nums[mid]:
-            return __binary_search(nums, mid, rg, target)
+            return binary_search(nums, mid, rg, target)
         else:
-            return __binary_search(nums, lf, mid, target)
+            return binary_search(nums, lf, mid, target)
 
 
 def broken_search(nums, target) -> int:
-    return __binary_search(nums, 0, len(nums), target)
+    return binary_search(nums, 0, len(nums), target)
 
 
 def test():

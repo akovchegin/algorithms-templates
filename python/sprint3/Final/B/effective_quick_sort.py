@@ -1,10 +1,10 @@
-# ID успешной отправки 82715336
+# ID успешной отправки 82765897
 import sys
 
 
 class Participant():
     def __init__(self, username, tasks, penalty):
-        self.__stats = (int(tasks)*-1, int(penalty), username)
+        self.__stats = (-int(tasks), int(penalty), username)
 
     def __lt__(self, obj):
         return self.__stats < obj.__stats
@@ -19,7 +19,7 @@ class Participant():
 def read_input():
     n = int(input())
     arr = [
-        Participant(*sys.stdin.readline().strip().split()) for _ in range(n) 
+        Participant(*sys.stdin.readline().strip().split()) for _ in range(n)
     ]
     return n, arr
 
