@@ -8,13 +8,13 @@ class Participant():
 
     def __lt__(self, obj):
         return self.__stats < obj.__stats
-    
+
     def __gt__(self, obj):
         return self.__stats > obj.__stats
 
     def __str__(self):
         return self.__stats[2]
-    
+
 
 def read_input():
     n = int(input())
