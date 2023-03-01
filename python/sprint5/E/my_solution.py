@@ -27,9 +27,9 @@ def check_tree(root, prev, is_left=None, is_right=None):
 
 
 def solution(root) -> bool:
-    if root.left and root.left.value > root.value:
+    if root.left and root.left.value >= root.value:
         return False
-    if root.right and root.right.value < root.value:
+    if root.right and root.right.value <= root.value:
         return False
     return (check_tree(root.left, root, is_left=True)
             and check_tree(root.right, root, is_right=True))
