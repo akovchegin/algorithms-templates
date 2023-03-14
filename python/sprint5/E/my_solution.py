@@ -4,36 +4,29 @@
 LOCAL = False
 
 if LOCAL:
-    class Node:
+    class Node:  
         def __init__(self, value, left=None, right=None):  
-            self.value = value
-            self.right = right
+            self.value = value  
+            self.right = right  
             self.left = left
 
 
-def check_tree(root, prev, is_left=None, is_right=None):
-    if root is None:
+def check_tree(root, root_parent=None):
+    if not root:
         return True
-    if root.left:
-        if (root.left.value >= root.value
-                or (is_right and root.left.value <= prev.value)):
-            return False
-    if root.right:
-        if (root.right.value <= root.value
-                or (is_left and root.right.value >= prev.value)):
-            return False
-    return (check_tree(root.left, root, is_left=True)
-            and check_tree(root.right, root, is_right=True))
+    if (root.left and
+            (root.left.value >= root.value
+                or root_parent and root.left.value <= root_parent.value < root.value)):
+        return False
+    if (root.right and
+            (root.right.value <= root.value
+            or root_parent and root.value < root_parent.value <= root.right.value)):
+         return False
+    return check_tree(root.left, root) and check_tree(root.right, root)
 
 
 def solution(root) -> bool:
-    if root.left and root.left.value >= root.value:
-        return False
-    if root.right and root.right.value <= root.value:
-        return False
-    return (check_tree(root.left, root, is_left=True)
-            and check_tree(root.right, root, is_right=True))
-
+    return check_tree(root)
 
 def test():
     node1 = Node(1, None, None)
@@ -45,7 +38,6 @@ def test():
     assert solution(node5)
     node2.value = 5
     assert not solution(node5)
-
 
 if __name__ == '__main__':
     test()
